@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fresh.dao.user.UserDAO">
+
+    <sql id="table_name"> user </sql>
+    <sql id="from_table_name"> from <include refid="table_name"/> </sql>
+    <sql id="insert_table_name"> insert into <include refid="table_name"/> </sql>
+    <sql id="update_table_name"> update <include refid="table_name"/> </sql>
+    <sql id="delete_table_name"> delete  <include refid="from_table_name"/> </sql>
+    <sql id="countSql">select count(1) <include refid="from_table_name"/> </sql>
+
+    <sql id="selectSql">
+        select userid, username, age
+        <include refid="from_table_name"/>
+    </sql>
+
+    <sql id="insertSql">
+        <include refid="insert_table_name"/>(username, age)
+        values(#{username}, #{age})
+    </sql>
+
+    <sql id="whereSql">
+        <trim prefix="where"> 1 = 1
+            <if test="userid > 0">
+                and userid = #{userid}
+            </if>
+            <if test="age > 0">
+                and age = #{age}
+            </if>
+            <if test="username != null and username != '' ">
+                and username like '%${username}%'
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="orderbySql">
+        order by userid desc
+    </sql>
+    <sql id="limitSql">
+        <if test="numPerPage != null">
+            limit #{startIndex} , #{numPerPage}
+        </if>
+    </sql>
+
+    <select id="listUserPage" parameterType="UserVo" resultType="User">
+        <include refid="selectSql"/>
+        <include refid="whereSql"/>
+        <include refid="orderbySql"/>
+        <include refid="limitSql"/>
+    </select>
+
+    <select id="countUserPageList" parameterType="UserVo" resultType="int">
+        <include refid="countSql"/>
+        <include refid="whereSql" />
+    </select>
+
+    <select id="getUser" parameterType="User" resultType="User">
+        <include refid="selectSql"/>
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="listUser" parameterType="User" resultType="User">
+        <include refid="selectSql"/>
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="saveUser" parameterType="User">
+        <include refid="insertSql" />
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+        <include refid="update_table_name" />
+        set username = #{username}, age = #{age}
+        where userid = #{userid}
+    </update>
+
+    <delete id="removeUser" parameterType="User">
+        <include refid="delete_table_name"/>
+        where userid = #{userid}
+    </delete>
+
+</mapper>

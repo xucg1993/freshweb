@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FoodMapper">
+
+    <!--表名 -->
+    <sql id="tableName">
+		food
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		foodid,
+        foodname,
+        cleanfoodprice,
+        foodpath,
+        stock,
+        updatetime,
+        creationdate,
+        hairfoodprice,
+        weight
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{foodid},
+        #{foodname},
+        #{cleanfoodprice},
+        #{foodpath},
+        #{stock},
+        #{updatetime},
+        #{creationdate},
+        #{hairfoodprice},
+        #{weight}
+	</sql>
+
+    <!-- 新增-->
+    <insert id="save" parameterType="pd">
+        insert into
+        <include refid="tableName"></include>
+        (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+
+    <!-- 菜品列表 -->
+    <select id="datalistPage" parameterType="pd" resultType="pd">
+		SELECT foodid,foodname,cleanfoodprice,foodpath,stock,weight
+		FROM food
+		WHERE 1=1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            sf.NAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            or
+            sf.TEL LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+        </if>
+	</select>
+
+    <!-- 菜品详情 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+		SELECT foodid,foodname,cleanfoodprice,foodpath,stock,weight
+		FROM food
+		WHERE foodid = #{foodid}
+	</select>
+
+    <!-- 列表(每小时)进店人数 -->
+    <select id="listByDayEnterCount" parameterType="pd" resultType="int">
+		SELECT COUNT(DISTINCT FRAMEFROM) FROM wireless_fidelity
+		WHERE DATE >= #{START}
+		AND DATE &lt;= #{END}
+		AND RSSI &lt;= #{RSSI}
+	</select>
+
+    <!-- 删除-->
+    <delete id="delete" parameterType="pd">
+        delete from
+        <include refid="tableName"></include>
+        where
+        APPNEWS_ID = #{APPNEWS_ID}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteAll" parameterType="String">
+        delete from
+        <include refid="tableName"></include>
+        where
+        APPNEWS_ID in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

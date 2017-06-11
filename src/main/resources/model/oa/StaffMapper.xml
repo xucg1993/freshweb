@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StaffMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		OA_STAFF
+	</sql>
+    <sql id="teacherTableName">
+        sg_teacher
+    </sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		NAME,	
+		NAME_EN,	
+		BIANMA,	
+		DEPARTMENT_ID,	
+		FUNCTIONS,	
+		TEL,	
+		EMAIL,	
+		SEX,	
+		BIRTHDAY,	
+		NATION,	
+		JOBTYPE,	
+		JOBJOINTIME,	
+		FADDRESS,	
+		POLITICAL,	
+		PJOINTIME,	
+		SFID,	
+		MARITAL,	
+		DJOINTIME,	
+		POST,	
+		POJOINTIME,	
+		EDUCATION,	
+		SCHOOL,	
+		MAJOR,	
+		FTITLE,	
+		CERTIFICATE,	
+		CONTRACTLENGTH,
+		CSTARTTIME,
+		CENDTIME,	
+		ADDRESS,	
+		USER_ID,	
+		BZ,
+		CODE,
+		STAFF_ID
+	</sql>
+
+	<sql id="Fields">
+		s.NAME,
+		s.NAME_EN,
+		s.BIANMA,
+		s.DEPARTMENT_ID,
+		s.FUNCTIONS,
+		s.TEL,
+		s.EMAIL,
+		s.SEX,
+		s.BIRTHDAY,
+		s.NATION,
+		s.JOBTYPE,
+		s.JOBJOINTIME,
+		s.FADDRESS,
+		s.POLITICAL,
+		s.PJOINTIME,
+		s.SFID,
+		s.MARITAL,
+		s.DJOINTIME,
+		s.POST,
+		s.POJOINTIME,
+		s.EDUCATION,
+		s.SCHOOL,
+		s.MAJOR,
+		s.FTITLE,
+		s.CERTIFICATE,
+		s.CONTRACTLENGTH,
+		s.CSTARTTIME,
+		s.CENDTIME,
+		s.ADDRESS,
+		s.USER_ID,
+		s.BZ,
+		s.CODE,
+		s.STAFF_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{NAME},	
+		#{NAME_EN},	
+		#{BIANMA},	
+		#{DEPARTMENT_ID},	
+		#{FUNCTIONS},	
+		#{TEL},	
+		#{EMAIL},	
+		#{SEX},	
+		#{BIRTHDAY},	
+		#{NATION},	
+		#{JOBTYPE},	
+		#{JOBJOINTIME},	
+		#{FADDRESS},	
+		#{POLITICAL},	
+		#{PJOINTIME},	
+		#{SFID},	
+		#{MARITAL},	
+		#{DJOINTIME},	
+		#{POST},	
+		#{POJOINTIME},	
+		#{EDUCATION},	
+		#{SCHOOL},	
+		#{MAJOR},	
+		#{FTITLE},	
+		#{CERTIFICATE},	
+		#{CONTRACTLENGTH},
+		#{CSTARTTIME},
+		#{CENDTIME},	
+		#{ADDRESS},	
+		#{USER_ID},	
+		#{BZ},	
+		#{CODE},
+		#{STAFF_ID}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			STAFF_ID = #{STAFF_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include> a
+		set 
+			NAME = #{NAME},
+			NAME_EN = #{NAME_EN},
+			BIANMA = #{BIANMA},
+			DEPARTMENT_ID = #{DEPARTMENT_ID},
+			FUNCTIONS = #{FUNCTIONS},
+			TEL = #{TEL},
+			EMAIL = #{EMAIL},
+			SEX = #{SEX},
+			BIRTHDAY = #{BIRTHDAY},
+			NATION = #{NATION},
+			JOBTYPE = #{JOBTYPE},
+			JOBJOINTIME = #{JOBJOINTIME},
+			FADDRESS = #{FADDRESS},
+			POLITICAL = #{POLITICAL},
+			PJOINTIME = #{PJOINTIME},
+			SFID = #{SFID},
+			MARITAL = #{MARITAL},
+			DJOINTIME = #{DJOINTIME},
+			POST = #{POST},
+			POJOINTIME = #{POJOINTIME},
+			EDUCATION = #{EDUCATION},
+			SCHOOL = #{SCHOOL},
+			MAJOR = #{MAJOR},
+			FTITLE = #{FTITLE},
+			CERTIFICATE = #{CERTIFICATE},
+			CONTRACTLENGTH = #{CONTRACTLENGTH},
+			CSTARTTIME = #{CSTARTTIME},
+			CENDTIME = #{CENDTIME},
+			ADDRESS = #{ADDRESS},
+			BZ = #{BZ}
+		where 
+			STAFF_ID = #{STAFF_ID}
+	</update>
+
+
+    <!-- 修改 -->
+    <update id="updateCode" parameterType="pd">
+        update
+        <include refid="tableName"></include> a
+        set
+        CODE = #{CODE}
+        where
+        STAFF_ID = #{STAFF_ID}
+    </update>
+
+
+    <!-- 修改头像地址 -->
+    <update id="updateAppUserHead" parameterType="pd">
+        update
+        <include refid="tableName"></include> a
+        set
+        APPHEADIMG = #{APPHEADIMG}
+        where
+        STAFF_ID = #{STAFF_ID}
+    </update>
+
+    <!-- 修改 -->
+    <update id="updateUser" parameterType="pd">
+        update
+        <include refid="tableName"></include> a
+        set
+        <if test="NAME!=null and NAME!=''">
+            NAME = #{NAME}
+        </if>
+        <if test="SEX!=null and SEX!=''">
+            SEX = #{SEX}
+        </if>
+        <if test="TEL!=null and TEL!=''">
+            TEL = #{TEL}
+        </if>
+        where
+        STAFF_ID = #{STAFF_ID}
+    </update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			STAFF_ID = #{STAFF_ID}
+	</select>
+
+    <!-- 通过用app用户名获取数据 -->
+    <select id="findByAppUserName" parameterType="pd" resultType="pd">
+        select
+        s.NAME,
+        s.NAME_EN,
+        s.BIANMA,
+        s.DEPARTMENT_ID,
+        s.FUNCTIONS,
+        s.TEL,
+        s.EMAIL,
+        s.SEX,
+        s.BIRTHDAY,
+        s.NATION,
+        s.JOBTYPE,
+        s.JOBJOINTIME,
+        s.FADDRESS,
+        s.POLITICAL,
+        s.PJOINTIME,
+        s.SFID,
+        s.MARITAL,
+        s.DJOINTIME,
+        s.POST,
+        s.POJOINTIME,
+        s.EDUCATION,
+        s.SCHOOL,
+        s.MAJOR,
+        s.FTITLE,
+        s.CERTIFICATE,
+        s.CONTRACTLENGTH,
+        s.CSTARTTIME,
+        s.CENDTIME,
+        s.ADDRESS,
+        s.USER_ID,
+        s.BZ,
+        s.CODE,
+        s.STAFF_ID,
+        s.APPHEADIMG,
+        stu.STUDENT_ID,
+        d.NAME as DEPTNAME
+        from
+        <include refid="tableName"></include> s,sg_student stu,oa_department d
+        where
+        s.STAFF_ID = stu.STUDENT_ID
+        and
+        s.DEPARTMENT_ID = d.DEPARTMENT_ID
+        and
+        s.SFID = #{USERNAME}
+    </select>
+
+    <!-- 通过ID获取数据 -->
+    <select id="findByUserId" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        USER_ID = #{USERNAME}
+    </select>
+
+    <!-- 通过身份证号获取数据 -->
+    <select id="findSFID" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        SFID = #{SFID}
+    </select>
+
+
+	<!-- 通过ID获取数据 -->
+    <select id="findByUSERID" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        USER_ID = #{USER_ID}
+    </select>
+
+    <!-- 通过BIANMA获取数据 -->
+    <select id="findByUserBianMa" parameterType="String" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        BIANMA = #{_parameter}
+    </select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+			a.STAFF_ID,
+			a.NAME,
+			a.NAME_EN,
+			a.BIANMA,	
+			a.DEPARTMENT_ID,	
+			a.TEL,	
+			a.SEX,
+			a.USER_ID,
+			b.NAME DNAME,
+            a.POST
+		from
+		<include refid="tableName"></include> a LEFT JOIN oa_department b
+		on a.DEPARTMENT_ID = b.DEPARTMENT_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					a.NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or 
+					a.NAME_EN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or 
+					a.BIANMA LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				)
+		</if>
+		<if test="pd.DEPARTMENT_ID!=null and pd.DEPARTMENT_ID!=''"><!-- 部门检索 -->
+			and a.DEPARTMENT_ID in ${pd.item}
+		</if>
+	</select>
+
+	<select id="findStaffListByDeptIdAndStu" parameterType="pd" resultType="pd">
+		select
+		<include refid="Fields"></include>
+		from
+		<include refid="tableName"></include> s, oa_department d
+		where d.DEPARTMENT_ID = s.DEPARTMENT_ID and
+		d.PATH like '%${DEPARTMENT_ID}%'
+		<if test="STAFF_IDS != '' and STAFF_IDS != null">
+			and s.STAFF_ID in (${STAFF_IDS})
+		</if>
+		<if test="STAFF_IDS == '' || STAFF_IDS == null">
+			and s.STAFF_ID = ''
+		</if>
+	</select>
+
+	<select id="findStaffListByDeptId" parameterType="String" resultType="pd">
+		select
+		<include refid="Fields"></include>
+		from
+		<include refid="tableName"></include> s, oa_department d
+		where d.DEPARTMENT_ID = s.DEPARTMENT_ID and
+		d.PATH like '%${value}%'
+	</select>
+
+    <!-- 列表 -->
+    <select id="findStafflistPage" parameterType="page" resultType="pd">
+        select
+        a.STAFF_ID,
+        a.NAME,
+        a.NAME_EN,
+        a.BIANMA,
+        a.DEPARTMENT_ID,
+        a.TEL,
+        a.SEX,
+        a.USER_ID,
+        b.NAME DNAME
+        from
+        <include refid="tableName"></include> a LEFT JOIN oa_department b
+        on a.DEPARTMENT_ID = b.DEPARTMENT_ID
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            a.NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            a.NAME_EN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            a.BIANMA LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.DEPARTMENT_ID!=null and pd.DEPARTMENT_ID!=''"><!-- 部门检索 -->
+            and a.DEPARTMENT_ID in ${pd.item}
+        </if>
+        and a.STAFF_ID not in (select t.STAFF_ID from <include refid="teacherTableName"></include> t where t.STAFF_ID !='')
+    </select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			STAFF_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<!-- 绑定用户 -->
+	<update id="userBinding" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			USER_ID = #{USER_ID}
+		where 
+			STAFF_ID = #{STAFF_ID}
+	</update>
+	
+</mapper>

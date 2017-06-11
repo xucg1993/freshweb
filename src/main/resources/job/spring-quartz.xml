@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--
+        五分钟未回复；每五分钟执行一次
+        五分钟未评价；每五分钟执行一次
+        会话中，未对话超过24小时，自动结束会话:  每天凌晨一点执行
+     -->
+<!--    <bean id="quartzScheduler" lazy-init="false" autowire="no"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="configLocation" value="classpath:quartz.properties"/>
+        <property name="triggers">
+            <list>
+                <ref bean="controlCommentJobTrigger"/>
+                <ref bean="controlReplyJobTrigger"/>
+                <ref bean="controlDialogueJobTrigger"/>
+            </list>
+        </property>
+    </bean>-->
+
+
+</beans>
